@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الروزنامة اللولو حمودية</title>
+  <!-- وسم مهم لتناسب الصفحة مع الموبايل -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+
+  <!-- /////////////////////////////////////////////////// -->
+  <!--  ستايل زر تفعيل الصوت -->
+  <style>
+    #enable-sound {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background: darkgreen;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 9999;
+    }
+  </style>
+
+  <!-- زر التفعيل -->
+  <button id="enable-sound">🔊 تفعيل الصوت</button>
+
+  <script>
+    document.getElementById("enable-sound").addEventListener("click", function() {
+      // هنا فقط نعطي إذن للمتصفح بتشغيل الصوت لاحقًا
+      // أي ملفات صوتية أخرى رح تشتغل تلقائيًا بعد هذا التفاعل
+
+      // إخفاء الزر بعد الضغط
+      this.style.display = "none";
+    });
+  </script>
+
+  <!-- /////////////////////////////////////////////////////// -->
+
+<!-- مربع نص قراءة مافي داخله -->
+  <style>
+    #text-box {
+      display: none; /* مخفي بالبداية */
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f0f0f0;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+  </style>
+  <div id="text-box">حان الآنْ : موعدُ الأذان</div>
+<!-- /////////////////////////////////////////////////////// -->
+
+
+  <div class="grid">
+
+    <div class="row row-2 الصف_صفر">
+      <div class="cell" id="التاريخ هجري" dir="rtl"></div> <!-- هذا يفرض اتجاه النص داخل العنصر ليكون من اليمين لليسار -->
+      <div class="cell" id="التاريخ ميلادي"></div>
+    </div>
+
+    <div class="row الصف_الأول">
+      <div class="cell year" id="السنة هجري"></div>
+      <div class="cell" id="اسم اليوم"></div>
+      <div class="cell year" id="السنة ميلادي"></div>
+    </div>
+
+    <div class="row row-2 الصف_الثاني">
+      <div class="cell" id="اسم الشهر هجري"></div>     
+      <div class="cell" id="اسم الشهر ميلادي"></div>
+    </div>
+
+    <div class="row row-2 الصف_الثالث">
+      <div class="cell" id="اليوم هجري" dir="rtl"></div>     
+      <div class="cell" id="اليوم ميلادي" dir="rtl"></div>
+    </div>
+
+    <div class="row row-3 الصف_الرابع">
+      <div class="cell" id="الوقت الحالي"></div>     
+      <div class="cell" id="باقي للصلاة"></div>
+      <div class="cell" id="باقي لإقامة الصلاة"></div>
+    </div>
+
+    <div class="row row-3 عناوين_الصف_الخامس">
+      <div class="cell" id="عنوان الفجر">الفجر</div>
+      <div class="cell" id="عنوان الشروق">الشروق</div>
+      <div class="cell" id="عنوان الظهر">الظهر</div>
+    </div>
+
+    <div class="row row-3 الصف_الخامس">
+      <div class="cell" id="الفجر"></div>
+      <div class="cell" id="الشروق"></div>
+      <div class="cell" id="الظهر"></div>
+    </div>
+
+    <div class="row row-3 عناوين_الصف_السادس">
+      <div class="cell" id="عنوان العصر">العصر</div>
+      <div class="cell" id="عنوان المغرب">المغرب</div>
+      <div class="cell" id="عنوان العشاء">العشاء</div>
+    </div>
+
+    <div class="row row-3 الصف_السادس">
+      <div class="cell" id="العصر"></div>
+      <div class="cell" id="المغرب"></div>
+      <div class="cell" id="العشاء"></div>
+    </div>
+  </div>
+
+  <!-- نزّل ملف المكتبة Hijri.js ثم اربطه -->
+  <script src="Hijri.js"></script>
+  <script>
+    // دالة لتحويل الأرقام إلى عربية
+    function toArabicNumbers(num) {
+      return num.toString().replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+    }
+
+    // التاريخ الميلادي
+    document.getElementById("التاريخ ميلادي").textContent = new Date().toLocaleDateString('ar-SY') + " م";
+
+    // التاريخ الهجري ككائن
+    const hijriObj = HijriJS.today();
+
+    const monthArabicHIJRI = ["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
+    const DAYsArabic = ["ٱلْأَحَدُ","ٱلْإِثْنَيْنِ","ٱلثُّلَاثَاءُ","ٱلْأَرْبِعَاءُ","ٱلْخَمِيسُ","ٱلْجُمُعَةُ","ٱلسَّبْتُ"];
+    const monthsNAMEArabic = ["كانون الثاني","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"];
+    const MONTHS_EGYPTIAN = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+    const MONTHS_ENGLISH = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+    const todayIndex = new Date().getDay(); 
+    const todayNameArabic = DAYsArabic[todayIndex];
+
+    const day = toArabicNumbers(hijriObj.day);
+    const month = toArabicNumbers(hijriObj.month);
+    const year = toArabicNumbers(hijriObj.year);
+
+    const hijriDateArabic = `${year}/${month}/${day} هـ`;
+
+    const today = new Date();
+    const monthIndex = today.getMonth();
+    const dayNumber = today.getDate();
+    const currentYear = today.getFullYear();
+
+    const monthText = `${monthsNAMEArabic[monthIndex]} - ${toArabicNumbers(monthIndex+1)} - ${MONTHS_EGYPTIAN[monthIndex]} - ${MONTHS_ENGLISH[monthIndex]}`;
+
+    document.getElementById("التاريخ هجري").textContent = hijriDateArabic;
+    document.getElementById("السنة هجري").textContent = toArabicNumbers(hijriObj.year) + " هـ";
+    document.getElementById("السنة ميلادي").textContent = toArabicNumbers(currentYear) + " م";
+    document.getElementById("اليوم هجري").textContent = toArabicNumbers(hijriObj.day);
+    document.getElementById("اليوم ميلادي").textContent = toArabicNumbers(dayNumber);  
+    document.getElementById("اسم الشهر هجري").textContent = monthArabicHIJRI[hijriObj.month - 1] + " - " + toArabicNumbers(hijriObj.month);
+    document.getElementById("اسم اليوم").textContent = todayNameArabic;
+    document.getElementById("اسم الشهر ميلادي").textContent = monthText;
+
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById("الوقت الحالي").textContent = "الآن " +
+        now.getHours() + ":" +
+        now.getMinutes().toString().padStart(2,'0') + ":" +
+        now.getSeconds().toString().padStart(2,'0');
+    }, 1000);
+  </script>
+
+
+<!-- إدخال ملف CSV -->
+<!-- <input type="file" id="uploadCSV" accept=".csv" style="display:none;" /> -->
+<!-- <script>  -->
+<!--   window.onload = function() {  -->
+<!--     alert("من فضلك اختر ملف CSV عند أول ضغطة على الصفحة");  -->
+<!--     document.body.addEventListener("click", function() {  -->
+<!--       document.getElementById("uploadCSV").click();  -->
+<!--     }, { once: true });  -->
+<!--   };  -->
+<!-- </script> -->
+
+
+
+<audio id="alert-15" src="baki-llsalat-15.mp3" preload="auto"></audio>
+<audio id="alert-10" src="baki-llsalat-10.mp3" preload="auto"></audio>
+<audio id="alert-5" src="baki-llsalat-5.mp3" preload="auto"></audio>
+<audio id="adhan" src="adhan.mp3" preload="auto"></audio>
+<audio id="iqama" src="iqama.mp3" preload="auto"></audio>
+
+
+<script src="data.js"></script>
+<script src="‏‏baki.js"></script>
+
+
+<script>
+  // الحصول على تاريخ اليوم بالصيغة dd/mm/yyyy
+  const dateObjNow   = new Date();
+  const dayNow       = String(dateObjNow.getDate()).padStart(2, '0');
+  const monthNow     = String(dateObjNow.getMonth() + 1).padStart(2, '0'); // الأشهر تبدأ من 0
+  const yearNow      = dateObjNow.getFullYear();
+  const todayDateStr = `${dayNow}/${monthNow}/${yearNow}`;
+
+  // البحث عن الصف الموافق للتاريخ
+  const todayRow = prayerTimes.find(row => row["التاريخ ميلادي"] === todayDateStr);
+
+  if (todayRow) {
+    document.getElementById("fajr").textContent    = todayRow.الفجر;
+    document.getElementById("shurooq").textContent = todayRow.الشروق;
+    document.getElementById("dhuhr").textContent   = todayRow.الظهر;
+    document.getElementById("asr").textContent     = todayRow.العصر;
+    document.getElementById("maghrib").textContent = todayRow.المغرب;
+    document.getElementById("isha").textContent    = todayRow.العشاء;
+  } else {
+    console.error("⚠️ لم يتم العثور على بيانات لهذا التاريخ في ملف data.js");
+  }
+</script>
+
+
+</body>
+</html>
+
